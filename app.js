@@ -4,12 +4,13 @@ var express = require('express'),
     logger = require('morgan'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
-    
+    formidable = require('express-formidable'),
+
     routes = require('./routes/index'),
-    users = require('./routes/users'),
+    ads = require('./routes/advert'),
 
     app = express(),
-    
+
     util = require("./local_modules/utils");
 
 app.set('views', path.join(__dirname, 'views'));
@@ -19,12 +20,13 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(formidable.parse());
 app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/advert', ads);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
